@@ -1,0 +1,40 @@
+syntax = "proto3";
+option go_package = ".;gserver";
+import "google/protobuf/empty.proto";
+package registry;
+
+// The greeting service definition.
+service Registry {
+  // Регистрирует инстанс сервиса
+  rpc Register (RegisterRequest) returns (google.protobuf.Empty) {}
+  // Регистрирует инстанс сервиса
+  rpc CrossOut (CrossOutRequest) returns (google.protobuf.Empty) {}
+  // Удаляет сервис
+  rpc RemoveService (RemoveServiceRequest) returns (google.protobuf.Empty) {}
+}
+
+message RegisterRequest {
+  string service_name = 1;
+  string base_host = 2;
+  repeated RegisterEndpoint registry = 3;
+  string hash = 4;
+  int64 unix_nano = 5;
+}
+
+message RegisterEndpoint {
+  string method = 1;
+  string path = 2;
+  string proxy_path = 3;
+  string policy = 4;
+  int32 timeout = 5;
+}
+
+message CrossOutRequest {
+  string service_name = 1;
+  string hash = 2;
+  int64 unix_nano = 3;
+}
+
+message RemoveServiceRequest {
+  string service_name = 1;
+}
